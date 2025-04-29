@@ -8,3 +8,32 @@ venv/
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Database files
+*.sqlite3
+*.db
+
+# Backup files
+*.bak
+
+# Log files
+*.log
+
+# Flask/Alembic migrations
+migrations/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Packaging
+*.egg-info/
+dist/
+build/
+
+# Pip
+pip-log.txt
+
+# Cache
+*.cache
