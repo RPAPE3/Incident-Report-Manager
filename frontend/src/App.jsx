@@ -1,10 +1,13 @@
 import { useState } from 'react'
+import { Routes, Route, Link, useNavigate } from 'react-router-dom'
+import Register from './Register'
 
-function App() {
+function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,7 +83,7 @@ function App() {
           <div className="text-center">
             <p className="text-sm text-gray-500">
               Don't have an account?{' '}
-              <a href="/register" className="text-blue-600 hover:underline">Create an account</a>
+              <Link to="/register" className="text-blue-600 hover:underline">Create an account</Link>
             </p>
           </div>
         </div>
@@ -89,6 +92,15 @@ function App() {
         <div className="container">&copy; {new Date().getFullYear()} IncidentFlow. All rights reserved.</div>
       </footer>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+    </Routes>
   );
 }
 
