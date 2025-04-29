@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException, status, Path
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
 from . import models, schemas, database, auth
@@ -50,4 +50,34 @@ def create_incident(incident: schemas.IncidentCreate, db: Session = Depends(get_
 
 @app.get("/incidents/", response_model=List[schemas.Incident])
 def read_incidents(skip: int = 0, limit: int = 10, db: Session = Depends(get_db), current_user: models.User = Depends(auth.get_current_user)):
-    return db.query(models.Incident).filter(models.Incident.owner_id == current_user.id).offset(skip).limit(limit).all() 
+    return db.query(models.Incident).filter(models.Incident.owner_id == current_user.id).offset(skip).limit(limit).all()
+
+@app.put("/incidents/{incident_id}", response_model=schemas.Incident)
+def update_incident(
+    incident_id: int = Path(..., description="The ID of the incident to update"),
+    incident: schemas.IncidentUpdate = None,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(auth.get_current_user),
+):
+    db_incident = db.query(models.Incident).filter(models.Incident.id == incident_id, models.Incident.owner_id == current_user.id).first()
+    if not db_incident:
+        raise HTTPException(status_code=404, detail="Incident not found")
+    update_data = incident.dict(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(db_incident, key, value)
+    db.commit()
+    db.refresh(db_incident)
+    return db_incident
+
+@app.delete("/incidents/{incident_id}", status_code=204)
+def delete_incident(
+    incident_id: int = Path(..., description="The ID of the incident to delete"),
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(auth.get_current_user),
+):
+    db_incident = db.query(models.Incident).filter(models.Incident.id == incident_id, models.Incident.owner_id == current_user.id).first()
+    if not db_incident:
+        raise HTTPException(status_code=404, detail="Incident not found")
+    db.delete(db_incident)
+    db.commit()
+    return None 

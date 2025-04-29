@@ -17,6 +17,10 @@ class Incident(IncidentBase):
     class Config:
         orm_mode = True
 
+class IncidentUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+
 class UserBase(BaseModel):
     username: str
     email: EmailStr
