@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Routes, Route, Link, useNavigate } from 'react-router-dom'
 import Register from './Register'
+import ForgotPassword from './ForgotPassword'
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -64,7 +65,7 @@ function Login() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <label htmlFor="password" className="block text-sm font-medium">Password</label>
-                <a href="/forgot-password" className="text-sm text-blue-600 hover:underline">Forgot password?</a>
+                <Link to="/forgot-password" className="text-sm text-blue-600 hover:underline">Forgot password?</Link>
               </div>
               <input
                 id="password"
@@ -100,6 +101,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
     </Routes>
   );
 }
