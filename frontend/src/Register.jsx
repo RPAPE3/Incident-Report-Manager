@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Header from './Header';
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ function Register() {
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,7 +63,7 @@ function Register() {
       }
       const loginData = await loginRes.json();
       localStorage.setItem("token", loginData.access_token);
-      window.location.href = "/dashboard";
+      navigate("/dashboard");
     } catch (err) {
       setIsLoading(false);
       setError(err.message || "Registration failed. Please try again.");

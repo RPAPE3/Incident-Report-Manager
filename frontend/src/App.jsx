@@ -32,7 +32,7 @@ function Login() {
       }
       const data = await res.json();
       localStorage.setItem("token", data.access_token);
-      window.location.href = "/dashboard";
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message || "Login failed. Please try again.");
     } finally {
