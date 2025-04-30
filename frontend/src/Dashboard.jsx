@@ -174,7 +174,7 @@ export default function Dashboard() {
     setError("");
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:8000/incidents/", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/incidents/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
