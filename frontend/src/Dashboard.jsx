@@ -23,6 +23,8 @@ import {
   SelectValue,
 } from "./components/ui/select"
 import { Textarea } from "./components/ui/textarea"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock, faSearch, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
 // Sample incidents data
 const sampleIncidents = [
@@ -289,7 +291,7 @@ export default function Dashboard() {
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
                     <span className="absolute left-2.5 top-2.5 text-gray-400">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4-4m0 0A7 7 0 104 4a7 7 0 0013 13z" /></svg>
+                      <FontAwesomeIcon icon={faSearch} className="h-4 w-4" />
                     </span>
                   </div>
                 </div>
@@ -314,7 +316,7 @@ export default function Dashboard() {
                               <p className="text-sm text-gray-500">{incident.description}</p>
                             </div>
                             <div className="flex items-center text-xs text-gray-400 whitespace-nowrap">
-                              <svg xmlns="http://www.w3.org/2000/svg" className="mr-1 h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                              <FontAwesomeIcon icon={faClock} className="mr-1 h-3 w-3" />
                               {format(incident.timestamp, "MMM d, yyyy 'at' h:mm a")}
                             </div>
                           </div>
@@ -323,7 +325,7 @@ export default function Dashboard() {
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center p-8 text-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <FontAwesomeIcon icon={faExclamationCircle} className="h-10 w-10 text-gray-300 mb-3" />
                       <h3 className="font-medium">No incidents found</h3>
                       <p className="text-sm text-gray-500 mt-1">
                         {searchQuery ? "Try adjusting your search query" : "Create your first incident to get started"}
