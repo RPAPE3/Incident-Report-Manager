@@ -151,6 +151,8 @@ export default function Dashboard() {
     severity: "medium",
     status: "open",
   })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
 
   useEffect(() => {
     // Check if user is logged in
@@ -167,22 +169,44 @@ export default function Dashboard() {
       incident.description.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
-  const handleCreateIncident = () => {
-    const newIncidentWithId = {
-      id: `inc-${Math.floor(Math.random() * 1000)
-        .toString()
-        .padStart(3, "0")}`,
-      timestamp: new Date(),
-      ...newIncident,
+  const handleCreateIncident = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:8000/incidents/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: newIncident.title,
+          description: newIncident.description,
+          severity: newIncident.severity,
+          status: newIncident.status,
+        }),
+      });
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.detail || "Failed to create incident");
+      }
+      const createdIncident = await response.json();
+      // Convert timestamp string to Date object for display
+      createdIncident.timestamp = new Date(createdIncident.timestamp);
+      setIncidents([createdIncident, ...incidents]);
+      setIsDialogOpen(false);
+      setNewIncident({
+        title: "",
+        description: "",
+        severity: "medium",
+        status: "open",
+      });
+    } catch (err) {
+      setError(err.message || "Failed to create incident");
+    } finally {
+      setLoading(false);
     }
-    setIncidents([newIncidentWithId, ...incidents])
-    setIsDialogOpen(false)
-    setNewIncident({
-      title: "",
-      description: "",
-      severity: "medium",
-      status: "open",
-    })
   }
 
   return (
@@ -268,11 +292,12 @@ export default function Dashboard() {
                   <button
                     className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
                     onClick={handleCreateIncident}
-                    disabled={!newIncident.title || !newIncident.description}
+                    disabled={!newIncident.title || !newIncident.description || loading}
                   >
-                    Create Incident
+                    {loading ? "Creating..." : "Create Incident"}
                   </button>
                 </DialogFooter>
+                {error && <div className="text-red-600 text-sm mt-2">{error}</div>}
               </DialogContent>
             </Dialog>
           </div>
