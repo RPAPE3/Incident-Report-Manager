@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Routes, Route, Link, useNavigate } from 'react-router-dom'
 import Register from './Register'
 import ForgotPassword from './ForgotPassword'
+import Dashboard from './Dashboard'
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -102,6 +103,7 @@ function App() {
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   );
 }

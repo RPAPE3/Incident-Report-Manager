@@ -32,11 +32,35 @@ function Register() {
     }
     setIsLoading(true);
     try {
-      // Simulate registration
-      setTimeout(() => {
-        setIsLoading(false);
-        window.location.href = "/";
-      }, 1500);
+      // Register user
+      const res = await fetch("http://localhost:8000/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.detail || "Registration failed");
+      }
+      // Auto-login after registration
+      const loginRes = await fetch("http://localhost:8000/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          username: formData.username,
+          password: formData.password,
+        }),
+      });
+      if (!loginRes.ok) {
+        throw new Error("Login failed after registration");
+      }
+      const loginData = await loginRes.json();
+      localStorage.setItem("token", loginData.access_token);
+      window.location.href = "/dashboard";
     } catch (err) {
       setIsLoading(false);
       setError(err.message || "Registration failed. Please try again.");
