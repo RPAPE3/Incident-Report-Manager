@@ -34,7 +34,7 @@ function Register() {
     setIsLoading(true);
     try {
       // Register user
-      const res = await fetch("http://localhost:8000/register", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -48,7 +48,7 @@ function Register() {
         throw new Error(data.detail || "Registration failed");
       }
       // Auto-login after registration
-      const loginRes = await fetch("http://localhost:8000/token", {
+      const loginRes = await fetch(`${import.meta.env.VITE_API_URL}/token`, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
