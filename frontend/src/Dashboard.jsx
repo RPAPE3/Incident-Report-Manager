@@ -108,33 +108,33 @@ const sampleIncidents = [
   },
 ]
 
-// Get severity badge color
-const getSeverityColor = (severity) => {
+// Get severity badge Tailwind class
+const getSeverityClass = (severity) => {
   switch (severity) {
     case "low":
-      return "secondary"
+      return "bg-blue-200 text-blue-800";
     case "medium":
-      return "default"
+      return "bg-yellow-200 text-yellow-800";
     case "high":
-      return "destructive"
+      return "bg-orange-200 text-orange-800";
     case "critical":
-      return "destructive"
+      return "bg-red-200 text-red-800";
     default:
-      return "default"
+      return "bg-gray-100 text-gray-800";
   }
 }
 
-// Get status badge color
-const getStatusColor = (status) => {
+// Get status badge Tailwind class
+const getStatusClass = (status) => {
   switch (status) {
     case "open":
-      return "secondary"
+      return "bg-gray-100 text-gray-800";
     case "investigating":
-      return "default"
+      return "bg-purple-200 text-purple-800";
     case "resolved":
-      return "default"
+      return "bg-green-200 text-green-800";
     default:
-      return "default"
+      return "bg-gray-100 text-gray-800";
   }
 }
 
@@ -304,10 +304,10 @@ export default function Dashboard() {
                             <div className="space-y-1">
                               <div className="flex items-center gap-2">
                                 <h3 className="font-medium">{incident.title}</h3>
-                                <Badge variant={getSeverityColor(incident.severity)}>
+                                <Badge className={getSeverityClass(incident.severity)}>
                                   {incident.severity.charAt(0).toUpperCase() + incident.severity.slice(1)}
                                 </Badge>
-                                <Badge variant={getStatusColor(incident.status)}>
+                                <Badge className={getStatusClass(incident.status)}>
                                   {incident.status.charAt(0).toUpperCase() + incident.status.slice(1)}
                                 </Badge>
                               </div>
