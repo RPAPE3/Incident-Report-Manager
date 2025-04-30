@@ -5,15 +5,19 @@ from . import models, schemas, database, auth
 from .database import SessionLocal, engine
 from typing import List
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+# Get allowed origins from environment variable or use defaults
+origins = os.getenv("FRONTEND_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
+
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:8000"],
+    allow_origins=[origin.strip() for origin in origins],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]

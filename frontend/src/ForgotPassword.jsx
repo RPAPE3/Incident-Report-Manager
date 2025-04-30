@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Header from './Header';
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -16,14 +17,7 @@ function ForgotPassword() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="border-b px-4 py-3">
-        <div className="container flex items-center">
-          <div className="flex items-center gap-2 font-semibold text-lg">
-            <span role="img" aria-label="shield" className="text-primary">🛡️</span>
-            <span>IncidentFlow</span>
-          </div>
-        </div>
-      </header>
+      <Header />
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md space-y-6">
           <div className="space-y-2 text-center">

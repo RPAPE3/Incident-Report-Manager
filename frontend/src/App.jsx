@@ -3,6 +3,7 @@ import { Routes, Route, Link, useNavigate } from 'react-router-dom'
 import Register from './Register'
 import ForgotPassword from './ForgotPassword'
 import Dashboard from './Dashboard'
+import Header from './Header'
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -19,26 +20,29 @@ function Login() {
       return;
     }
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      if (username === "demo" && password === "password") {
-        window.location.href = "/dashboard";
-      } else {
-        setError("Invalid credentials. Try demo/password for this demo.");
+    try {
+      const res = await fetch("http://localhost:8000/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ username, password }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.detail || "Invalid credentials");
       }
-    }, 1000);
+      const data = await res.json();
+      localStorage.setItem("token", data.access_token);
+      window.location.href = "/dashboard";
+    } catch (err) {
+      setError(err.message || "Login failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="border-b px-4 py-3">
-        <div className="container flex items-center">
-          <div className="flex items-center gap-2 font-semibold text-lg">
-            <span role="img" aria-label="shield" className="text-primary">🛡️</span>
-            <span>IncidentFlow</span>
-          </div>
-        </div>
-      </header>
+      <Header />
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md space-y-6">
           <div className="space-y-2 text-center">
