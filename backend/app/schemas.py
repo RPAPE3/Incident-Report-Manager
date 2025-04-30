@@ -1,10 +1,24 @@
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 import datetime
+from enum import Enum
+
+class SeverityEnum(str, Enum):
+    low = "low"
+    medium = "medium"
+    high = "high"
+    critical = "critical"
+
+class StatusEnum(str, Enum):
+    open = "open"
+    investigating = "investigating"
+    resolved = "resolved"
 
 class IncidentBase(BaseModel):
     title: str
     description: Optional[str] = None
+    severity: SeverityEnum = SeverityEnum.low
+    status: StatusEnum = StatusEnum.open
 
 class IncidentCreate(IncidentBase):
     pass
@@ -20,6 +34,8 @@ class Incident(IncidentBase):
 class IncidentUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
+    severity: Optional[SeverityEnum] = None
+    status: Optional[StatusEnum] = None
 
 class UserBase(BaseModel):
     username: str
