@@ -26,90 +26,6 @@ import { Textarea } from "./components/ui/textarea"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faSearch, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
-// Sample incidents data
-const sampleIncidents = [
-  {
-    id: "inc-001",
-    title: "Database Connection Failure",
-    description: "Users unable to access customer records due to database connectivity issues",
-    timestamp: new Date(2023, 3, 15, 14, 30),
-    severity: "high",
-    status: "resolved",
-  },
-  {
-    id: "inc-002",
-    title: "API Gateway Timeout",
-    description: "External API requests timing out, affecting payment processing",
-    timestamp: new Date(2023, 3, 18, 9, 15),
-    severity: "critical",
-    status: "investigating",
-  },
-  {
-    id: "inc-003",
-    title: "Website Performance Degradation",
-    description: "Slow page load times reported across multiple regions",
-    timestamp: new Date(2023, 3, 20, 11, 45),
-    severity: "medium",
-    status: "open",
-  },
-  {
-    id: "inc-004",
-    title: "Authentication Service Disruption",
-    description: "Users experiencing intermittent login failures",
-    timestamp: new Date(2023, 3, 22, 16, 20),
-    severity: "high",
-    status: "investigating",
-  },
-  {
-    id: "inc-005",
-    title: "Storage System at 95% Capacity",
-    description: "Main storage cluster approaching capacity limits",
-    timestamp: new Date(2023, 3, 25, 8, 10),
-    severity: "medium",
-    status: "open",
-  },
-  {
-    id: "inc-006",
-    title: "CDN Cache Invalidation Failure",
-    description: "Content updates not propagating to edge locations",
-    timestamp: new Date(2023, 3, 27, 13, 50),
-    severity: "low",
-    status: "resolved",
-  },
-  {
-    id: "inc-007",
-    title: "SSL Certificate Expiration Warning",
-    description: "Production certificates expiring in 7 days",
-    timestamp: new Date(2023, 3, 28, 10, 30),
-    severity: "medium",
-    status: "open",
-  },
-  {
-    id: "inc-008",
-    title: "Network Packet Loss Detected",
-    description: "Intermittent connectivity issues between data centers",
-    timestamp: new Date(2023, 3, 29, 15, 45),
-    severity: "high",
-    status: "investigating",
-  },
-  {
-    id: "inc-009",
-    title: "Backup Job Failure",
-    description: "Nightly backup process failed to complete",
-    timestamp: new Date(2023, 3, 30, 5, 15),
-    severity: "medium",
-    status: "resolved",
-  },
-  {
-    id: "inc-010",
-    title: "Memory Leak in Production Service",
-    description: "Gradual performance degradation observed in main application service",
-    timestamp: new Date(2023, 4, 1, 12, 0),
-    severity: "critical",
-    status: "open",
-  },
-]
-
 // Get severity badge Tailwind class
 const getSeverityClass = (severity) => {
   switch (severity) {
@@ -142,7 +58,7 @@ const getStatusClass = (status) => {
 
 export default function Dashboard() {
   const navigate = useNavigate()
-  const [incidents, setIncidents] = useState(sampleIncidents)
+  const [incidents, setIncidents] = useState([])
   const [searchQuery, setSearchQuery] = useState("")
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [newIncident, setNewIncident] = useState({
@@ -154,11 +70,37 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
+  // Fetch incidents from the backend
+  const fetchIncidents = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/incidents/`, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch incidents");
+      }
+      const data = await response.json();
+      // Convert timestamp strings to Date objects
+      const incidentsWithDates = data.map(incident => ({
+        ...incident,
+        timestamp: new Date(incident.timestamp),
+      }));
+      setIncidents(incidentsWithDates);
+    } catch (err) {
+      setError(err.message || "Failed to fetch incidents");
+    }
+  };
+
   useEffect(() => {
     // Check if user is logged in
     const token = localStorage.getItem("token")
     if (!token) {
       navigate("/")
+    } else {
+      fetchIncidents(); // Fetch incidents on mount
     }
   }, [navigate])
 
@@ -191,10 +133,8 @@ export default function Dashboard() {
         const data = await response.json();
         throw new Error(data.detail || "Failed to create incident");
       }
-      const createdIncident = await response.json();
-      // Convert timestamp string to Date object for display
-      createdIncident.timestamp = new Date(createdIncident.timestamp);
-      setIncidents([createdIncident, ...incidents]);
+      // After creating, re-fetch incidents from the DB
+      await fetchIncidents();
       setIsDialogOpen(false);
       setNewIncident({
         title: "",
