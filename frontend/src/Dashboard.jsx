@@ -160,12 +160,29 @@ export default function Dashboard() {
     setDeleteIncident(incident)
     setDropdownOpenId(null)
   }
-  const confirmDelete = () => {
-    setIncidents(incidents.filter((inc) => inc.id !== deleteIncident.id))
-    setDeleteIncident(null)
-    setToastMsg("Incident deleted successfully.")
-    setShowToast(true)
-    setTimeout(() => setShowToast(false), 2500)
+  const confirmDelete = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/incidents/${deleteIncident.id}/`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete incident");
+      }
+      setIncidents(incidents.filter((inc) => inc.id !== deleteIncident.id));
+      setDeleteIncident(null);
+      setToastMsg("Incident deleted successfully.");
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2500);
+    } catch (err) {
+      setDeleteIncident(null);
+      setToastMsg("Failed to delete incident. Please try again.");
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2500);
+    }
   }
   const cancelDelete = () => setDeleteIncident(null)
 
