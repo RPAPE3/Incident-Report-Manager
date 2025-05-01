@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1e40af"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <!-- Bigger, bolder shield shape -->
+    <path d="M32 2C32 2 2 10 2 22c0 28 30 38 30 38s30-10 30-38C62 10 32 2 32 2z" fill="url(#bg)"/>
+    <!-- Larger user circle -->
+    <circle cx="32" cy="28" r="10" fill="#fff"/>
+    <!-- Larger user shoulders -->
+    <ellipse cx="32" cy="44" rx="16" ry="8" fill="#fff"/>
+  </g>
+</svg> 
