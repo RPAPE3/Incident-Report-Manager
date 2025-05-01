@@ -24,7 +24,7 @@ import {
 } from "./components/ui/select"
 import { Textarea } from "./components/ui/textarea"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faSearch, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faSearch, faExclamationCircle, faEllipsisV, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 // Get severity badge Tailwind class
 const getSeverityClass = (severity) => {
@@ -69,6 +69,12 @@ export default function Dashboard() {
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+
+  // Dropdown and delete dialog state
+  const [dropdownOpenId, setDropdownOpenId] = useState(null)
+  const [deleteIncident, setDeleteIncident] = useState(null)
+  const [showToast, setShowToast] = useState(false)
+  const [toastMsg, setToastMsg] = useState("")
 
   // Fetch incidents from the backend
   const fetchIncidents = async () => {
@@ -148,6 +154,20 @@ export default function Dashboard() {
       setLoading(false);
     }
   }
+
+  // Handle delete
+  const handleDeleteClick = (incident) => {
+    setDeleteIncident(incident)
+    setDropdownOpenId(null)
+  }
+  const confirmDelete = () => {
+    setIncidents(incidents.filter((inc) => inc.id !== deleteIncident.id))
+    setDeleteIncident(null)
+    setToastMsg("Incident deleted successfully.")
+    setShowToast(true)
+    setTimeout(() => setShowToast(false), 2500)
+  }
+  const cancelDelete = () => setDeleteIncident(null)
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -266,7 +286,7 @@ export default function Dashboard() {
                   {filteredIncidents.length > 0 ? (
                     <div className="divide-y">
                       {filteredIncidents.map((incident) => (
-                        <div key={incident.id} className="p-4 hover:bg-gray-50">
+                        <div key={incident.id} className="p-4 hover:bg-gray-50 relative">
                           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2">
                             <div className="space-y-1">
                               <div className="flex items-center gap-2">
@@ -280,9 +300,30 @@ export default function Dashboard() {
                               </div>
                               <p className="text-sm text-gray-500">{incident.description}</p>
                             </div>
-                            <div className="flex items-center text-xs text-gray-400 whitespace-nowrap">
-                              <FontAwesomeIcon icon={faClock} className="mr-1 h-3 w-3" />
-                              {format(incident.timestamp, "MMM d, yyyy 'at' h:mm a")}
+                            <div className="flex items-center gap-4">
+                              <div className="flex items-center text-xs text-gray-400 whitespace-nowrap">
+                                <FontAwesomeIcon icon={faClock} className="mr-1 h-3 w-3" />
+                                {format(incident.timestamp, "MMM d, yyyy 'at' h:mm a")}
+                              </div>
+                              {/* 3-dots dropdown */}
+                              <div className="relative">
+                                <button
+                                  className="p-2 rounded-full hover:bg-gray-200 focus:outline-none"
+                                  onClick={() => setDropdownOpenId(dropdownOpenId === incident.id ? null : incident.id)}
+                                >
+                                  <FontAwesomeIcon icon={faEllipsisV} className="h-5 w-5 text-gray-500" />
+                                </button>
+                                {dropdownOpenId === incident.id && (
+                                  <div className="absolute right-0 mt-2 w-32 bg-white border rounded shadow-lg z-10">
+                                    <button
+                                      className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                                      onClick={() => handleDeleteClick(incident)}
+                                    >
+                                      <FontAwesomeIcon icon={faTrash} className="mr-2 h-4 w-4" /> Delete
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -302,6 +343,35 @@ export default function Dashboard() {
             </Card>
           </div>
         </div>
+        {/* Delete Confirmation Dialog */}
+        {deleteIncident && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 bg-opacity-40">
+            <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+              <h2 className="text-lg font-semibold mb-2">Delete Incident</h2>
+              <p className="mb-4 text-gray-600">Are you sure you want to delete <span className="font-bold">{deleteIncident.title}</span>? This action cannot be undone.</p>
+              <div className="flex justify-end gap-2">
+                <button
+                  className="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  onClick={cancelDelete}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+                  onClick={confirmDelete}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {/* Toast Notification */}
+        {showToast && (
+          <div className="fixed top-6 right-6 z-50 bg-red-600 text-white px-4 py-2 rounded shadow-lg animate-fade-in-out">
+            {toastMsg}
+          </div>
+        )}
       </main>
     </div>
   )
