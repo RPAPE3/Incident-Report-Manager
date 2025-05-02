@@ -320,7 +320,14 @@ export default function Dashboard() {
                             <div className="flex items-center gap-4">
                               <div className="flex items-center text-xs text-gray-400 whitespace-nowrap">
                                 <FontAwesomeIcon icon={faClock} className="mr-1 h-3 w-3" />
-                                {format(incident.timestamp, "MMM d, yyyy 'at' h:mm a")}
+                                {incident.timestamp.toLocaleString(undefined, {
+                                  year: 'numeric',
+                                  month: 'short',
+                                  day: 'numeric',
+                                  hour: 'numeric',
+                                  minute: '2-digit',
+                                  hour12: true
+                                })}
                               </div>
                               {/* 3-dots dropdown */}
                               <div className="relative">
