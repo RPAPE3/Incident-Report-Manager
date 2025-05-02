@@ -210,7 +210,7 @@ export default function Dashboard() {
                     <label htmlFor="title" className="block text-sm font-medium">Title</label>
                     <input
                       id="title"
-                      className="w-full px-3 py-2 border rounded"
+                      className="w-full px-3 py-2 border rounded bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white placeholder:text-gray-400"
                       placeholder="Brief title of the incident"
                       value={newIncident.title}
                       onChange={(e) => setNewIncident({ ...newIncident, title: e.target.value })}
@@ -262,7 +262,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                 </div>
-                <DialogFooter>
+                <DialogFooter className="flex flex-col gap-2 md:flex-row md:gap-4">
                   <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300" onClick={() => setIsDialogOpen(false)}>
                     Cancel
                   </button>
@@ -288,7 +288,7 @@ export default function Dashboard() {
                     <input
                       type="search"
                       placeholder="Search incidents..."
-                      className="pl-8 pr-3 py-2 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="pl-8 pr-3 py-2 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white placeholder:text-gray-400"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
