@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Header from '../components/ui/Header';
-import { useNavigate } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -144,7 +144,7 @@ function Register() {
           <div className="text-center">
             <p className="text-sm text-gray-500">
               Already have an account?{' '}
-              <a href="/" className="text-blue-600 hover:underline">Sign in</a>
+              <Link to="/" className="text-blue-600 hover:underline">Sign in</Link>
             </p>
           </div>
         </div>
