@@ -2,7 +2,6 @@ import { Routes, Route } from 'react-router-dom'
 import Register from './Register'
 import ForgotPassword from './ForgotPassword'
 import Dashboard from './Dashboard'
-import Header from './Header'
 import Login from './Login'
 
 function App() {

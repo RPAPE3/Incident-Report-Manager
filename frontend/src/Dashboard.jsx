@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { format } from "date-fns"
-import Header from "./Header"
+import Header from "./components/ui/Header"
 import { Card, CardHeader, CardContent, CardFooter, CardTitle, CardDescription } from "./components/ui/card"
 import { Badge } from "./components/ui/badge"
 import {

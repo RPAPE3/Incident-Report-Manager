@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Header from './Header';
+import Header from './components/ui/Header';
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
