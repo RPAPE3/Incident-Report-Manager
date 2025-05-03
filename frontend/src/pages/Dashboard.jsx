@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { format } from "date-fns"
-import Header from "./components/ui/Header"
-import { Card, CardHeader, CardContent, CardFooter, CardTitle, CardDescription } from "./components/ui/card"
-import { Badge } from "./components/ui/badge"
+import Header from "../components/ui/Header"
+import { Card, CardHeader, CardContent, CardFooter, CardTitle, CardDescription } from "../components/ui/card"
+import { Badge } from "../components/ui/badge"
 import {
   Dialog,
   DialogContent,
@@ -14,15 +14,15 @@ import {
   DialogTitle,
   DialogDescription,
   DialogTrigger,
-} from "./components/ui/dialog"
+} from "../components/ui/dialog"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./components/ui/select"
-import { Textarea } from "./components/ui/textarea"
+} from "../components/ui/select"
+import { Textarea } from "../components/ui/textarea"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faSearch, faExclamationCircle, faEllipsisV, faTrash } from '@fortawesome/free-solid-svg-icons';
 
