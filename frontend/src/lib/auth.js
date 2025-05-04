@@ -9,4 +9,9 @@ export async function loginUser(apiUrl, username, password) {
     throw new Error(data.detail || "Invalid credentials");
   }
   return await res.json();
+}
+
+export function handleLoginSuccess(data, navigate) {
+  localStorage.setItem("token", data.access_token);
+  navigate("/dashboard");
 } 

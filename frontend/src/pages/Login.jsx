@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Header from '../components/ui/Header'
 import Footer from '../components/ui/Footer'
-import { loginUser } from '../lib/auth'
+import { loginUser, handleLoginSuccess } from '../lib/auth'
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -21,8 +21,7 @@ function Login() {
     setIsLoading(true);
     try {
       const data = await loginUser(import.meta.env.VITE_API_URL, username, password);
-      localStorage.setItem("token", data.access_token);
-      navigate("/dashboard");
+      handleLoginSuccess(data, navigate);
     } catch (err) {
       setError(err.message || "Login failed. Please try again.");
     } finally {
