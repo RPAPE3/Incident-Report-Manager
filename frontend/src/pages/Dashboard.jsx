@@ -7,9 +7,10 @@ import Header from "../components/ui/Header"
 import { Card, CardHeader, CardContent, CardFooter, CardTitle, CardDescription } from "../components/ui/card"
 import { Badge } from "../components/ui/badge"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faSearch, faExclamationCircle, faEllipsisV, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faExclamationCircle, faEllipsisV, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Footer from '../components/ui/Footer'
 import CreateIncidentDialog from '../components/ui/CreateIncidentDialog';
+import SearchIncidents from '../components/ui/SearchIncidents';
 
 // Get severity badge Tailwind class
 const getSeverityClass = (severity) => {
@@ -206,18 +207,7 @@ export default function Dashboard() {
               <CardHeader className="pb-3">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <CardTitle>Recent Incidents</CardTitle>
-                  <div className="relative w-full md:w-64">
-                    <input
-                      type="search"
-                      placeholder="Search incidents..."
-                      className="pl-8 pr-3 py-2 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white placeholder:text-gray-400"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                    <span className="absolute left-2.5 top-2.5 text-gray-400">
-                      <FontAwesomeIcon icon={faSearch} className="h-4 w-4" />
-                    </span>
-                  </div>
+                  <SearchIncidents searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
                 </div>
               </CardHeader>
               <CardContent className="p-0">
