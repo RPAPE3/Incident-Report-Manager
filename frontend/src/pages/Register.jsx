@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header from '../components/ui/Header';
 import { Link,useNavigate } from "react-router-dom";
 import Footer from '../components/ui/Footer';
+import { loginUser } from '../lib/auth';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -51,18 +52,7 @@ function Register() {
         throw new Error(data.detail || "Registration failed");
       }
       // Auto-login after registration
-      const loginRes = await fetch(`${import.meta.env.VITE_API_URL}/token`, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          username: formData.username,
-          password: formData.password,
-        }),
-      });
-      if (!loginRes.ok) {
-        throw new Error("Login failed after registration");
-      }
-      const loginData = await loginRes.json();
+      const loginData = await loginUser(import.meta.env.VITE_API_URL, formData.username, formData.password);
       localStorage.setItem("token", loginData.access_token);
       navigate("/dashboard");
     } catch (err) {

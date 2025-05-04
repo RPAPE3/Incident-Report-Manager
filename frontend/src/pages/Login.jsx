@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Header from '../components/ui/Header'
 import Footer from '../components/ui/Footer'
+import { loginUser } from '../lib/auth'
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -19,16 +20,7 @@ function Login() {
     }
     setIsLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/token`, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ username, password }),
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.detail || "Invalid credentials");
-      }
-      const data = await res.json();
+      const data = await loginUser(import.meta.env.VITE_API_URL, username, password);
       localStorage.setItem("token", data.access_token);
       navigate("/dashboard");
     } catch (err) {
