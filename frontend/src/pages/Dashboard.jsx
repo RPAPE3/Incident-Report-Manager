@@ -25,6 +25,7 @@ import {
 import { Textarea } from "../components/ui/textarea"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faSearch, faExclamationCircle, faEllipsisV, faTrash } from '@fortawesome/free-solid-svg-icons';
+import Footer from '../components/ui/Footer'
 
 // Get severity badge Tailwind class
 const getSeverityClass = (severity) => {
@@ -397,6 +398,7 @@ export default function Dashboard() {
           </div>
         )}
       </main>
+      <Footer />
     </div>
   )
 }

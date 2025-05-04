@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Header from '../components/ui/Header';
+import Footer from '../components/ui/Footer';
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -68,9 +69,7 @@ function ForgotPassword() {
           )}
         </div>
       </main>
-      <footer className="border-t py-4 text-center text-sm text-gray-500">
-        <div className="container">&copy; {new Date().getFullYear()} IncidentFlow. All rights reserved.</div>
-      </footer>
+      <Footer />
     </div>
   );
 }
