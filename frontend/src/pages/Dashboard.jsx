@@ -187,6 +187,12 @@ export default function Dashboard() {
   }
   const cancelDelete = () => setDeleteIncident(null)
 
+  // Handle input changes for new incident form
+  const handleNewIncidentChange = (e) => {
+    const { name, value } = e.target;
+    setNewIncident((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -211,20 +217,22 @@ export default function Dashboard() {
                     <label htmlFor="title" className="block text-sm font-medium">Title</label>
                     <input
                       id="title"
+                      name="title"
                       className="w-full px-3 py-2 border rounded bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white placeholder:text-gray-400"
                       placeholder="Brief title of the incident"
                       value={newIncident.title}
-                      onChange={(e) => setNewIncident({ ...newIncident, title: e.target.value })}
+                      onChange={handleNewIncidentChange}
                     />
                   </div>
                   <div className="grid gap-2">
                     <label htmlFor="description" className="block text-sm font-medium">Description</label>
                     <Textarea
                       id="description"
+                      name="description"
                       placeholder="Detailed description of the incident"
                       rows={4}
                       value={newIncident.description}
-                      onChange={(e) => setNewIncident({ ...newIncident, description: e.target.value })}
+                      onChange={handleNewIncidentChange}
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
