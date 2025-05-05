@@ -11,6 +11,7 @@ import { faClock, faExclamationCircle, faEllipsisV, faTrash } from '@fortawesome
 import Footer from '../components/ui/Footer'
 import CreateIncidentDialog from '../components/ui/CreateIncidentDialog';
 import SearchIncidents from '../components/ui/SearchIncidents';
+import DeleteIncidentDialog from '../components/ui/DeleteIncidentDialog';
 
 // Get severity badge Tailwind class
 const getSeverityClass = (severity) => {
@@ -280,28 +281,11 @@ export default function Dashboard() {
           </div>
         </div>
         {/* Delete Confirmation Dialog */}
-        {deleteIncident && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 bg-opacity-40">
-            <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-              <h2 className="text-lg font-semibold mb-2">Delete Incident</h2>
-              <p className="mb-4 text-gray-600">Are you sure you want to delete <span className="font-bold">{deleteIncident.title}</span>? This action cannot be undone.</p>
-              <div className="flex justify-end gap-2">
-                <button
-                  className="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300"
-                  onClick={cancelDelete}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
-                  onClick={confirmDelete}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        <DeleteIncidentDialog
+          deleteIncident={deleteIncident}
+          onCancel={cancelDelete}
+          onConfirm={confirmDelete}
+        />
         {/* Toast Notification */}
         {showToast && (
           <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-red-600 text-white px-4 py-2 rounded shadow-lg animate-fade-in-out">
