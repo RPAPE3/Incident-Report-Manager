@@ -12,6 +12,7 @@ import Footer from '../components/ui/Footer'
 import CreateIncidentDialog from '../components/ui/CreateIncidentDialog';
 import SearchIncidents from '../components/ui/SearchIncidents';
 import DeleteIncidentDialog from '../components/ui/DeleteIncidentDialog';
+import ToastNotification from '../components/ui/ToastNotification';
 
 // Get severity badge Tailwind class
 const getSeverityClass = (severity) => {
@@ -287,11 +288,7 @@ export default function Dashboard() {
           onConfirm={confirmDelete}
         />
         {/* Toast Notification */}
-        {showToast && (
-          <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-red-600 text-white px-4 py-2 rounded shadow-lg animate-fade-in-out">
-            {toastMsg}
-          </div>
-        )}
+        <ToastNotification show={showToast} message={toastMsg} />
       </main>
       <Footer />
     </div>
