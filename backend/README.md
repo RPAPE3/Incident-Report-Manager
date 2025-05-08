@@ -5,7 +5,7 @@ This is the backend for the Incident Report Manager application, built with Fast
 ## Features
 - User registration and JWT authentication
 - Secure password hashing with Passlib (bcrypt)
-- Incident CRUD operations (create, read)
+- Incident CRUD operations (create, read, update, delete)
 - PostgreSQL database with SQLAlchemy ORM
 - Pydantic models for data validation
 - Environment variable support with python-dotenv
@@ -65,6 +65,30 @@ Copy the output and use it as your `SECRET_KEY`.
     # or
     ps aux | grep postgres
     ```
+
+- **Start PostgreSQL if it's not running:**
+  - **Windows:**
+    ```sh
+    # Using Services (GUI)
+    1. Press Win + R, type "services.msc" and press Enter
+    2. Find "PostgreSQL" in the list
+    3. Right-click and select "Start"
+
+    # Using Command Prompt (as Administrator)
+    net start postgresql
+    ```
+  - **Linux:**
+    ```sh
+    sudo systemctl start postgresql
+    ```
+  - **macOS:**
+    ```sh
+    # If installed via Homebrew
+    brew services start postgresql
+    # If installed via Postgres.app
+    open -a Postgres
+    ```
+
 - **Check if the database exists:**
   ```sh
   # Open the psql shell
@@ -95,23 +119,9 @@ Visit [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) for the interacti
 ### Incidents
 - `POST /incidents/` — Create a new incident (JWT required)
 - `GET /incidents/` — List your incidents (JWT required)
+- `PUT /incidents/{incident_id}` — Update an existing incident (JWT required)
+- `DELETE /incidents/{incident_id}` — Delete an incident (JWT required)
 
-## Project Structure
-```
-backend/
-  app/
-    __init__.py
-    main.py
-    models.py
-    schemas.py
-    database.py
-    auth.py
-  venv/
-  requirements.txt
-  .env
-  .gitignore
-  README.md
-```
 
 ## Notes
 - Do **not** commit your `.env` or `venv/` folders.
