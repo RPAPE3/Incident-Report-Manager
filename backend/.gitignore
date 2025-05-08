@@ -37,3 +37,7 @@ pip-log.txt
 
 # Cache
 *.cache
+
+# Generated reports
+incident_report.csv
+analytics_output/
