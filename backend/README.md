@@ -42,6 +42,7 @@ Create a `.env` file in the `backend` directory:
 ```
 DATABASE_URL=postgresql://postgres:<yourpassword>@localhost/incident_db
 SECRET_KEY=<your_secret_key>
+FRONTEND_ORIGINS=http://localhost:5173
 ```
 
 #### Generate a Secure Secret Key

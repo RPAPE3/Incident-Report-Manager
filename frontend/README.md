@@ -1,12 +1,58 @@
-# React + Vite
+# Incident Report Manager Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web application built with React and Vite for managing and tracking incident reports efficiently.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Modern, responsive user interface
+- Real-time incident report management
+- Secure authentication and authorization
+- Interactive dashboard with incident statistics
+- Efficient form handling and data validation
+- Dark/Light mode support
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React 18+
+- Vite
+- TypeScript
+- Tailwind CSS
+- React Router
+- React Query
+- Axios
+
+## Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn package manager
+
+## Getting Started
+
+1. Clone the repository
+2. Navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+4. Create a `.env` file in the root directory and add necessary environment variables:
+   ```
+   VITE_API_URL=http://localhost:8000
+   ```
+
+## Development
+
+To start the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+The application will be available at `http://localhost:5173`
+
